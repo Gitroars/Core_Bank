@@ -30,6 +30,28 @@ public class ATM {
     }
 
     public static void OrderTwo(){
+
+        System.out.println(" Choose Debit Card Tier ");
+        System.out.println("1. Blue | Withdraw Limit : 10M | Deposit Limit : 25M");
+        System.out.println("2. Gold | Withdraw Limit : 10M | Deposit Limit : 40M");
+        System.out.println("3. Platinum | Withdraw Limit : 10M | Deposit Limit : 50M");
+        int tier = myObj.nextInt();
+        switch (tier){
+            case 1:
+                System.out.println("Blue Tier selected");
+                break;
+            case 2:
+                System.out.println("Gold Tier selected");
+                break;
+            case 3:
+                System.out.println("Platinum Tier selected");
+                break;
+
+            default:
+                break;
+        }
+
+
         System.out.print("Enter starting balance: ");
         double newBalance = myObj.nextDouble();
         myBank.getCustomers(0).getAccount().deposit(newBalance);
@@ -55,18 +77,31 @@ public class ATM {
     public static void printMenu(){
         System.out.println("||| TRANSACTION MENU |||");
         System.out.println("0. Exit");
-        System.out.println("1. Register");
-        System.out.println("2. Create New Account");
+        System.out.println("1. Register & Open Account");
+//        System.out.println("2. Create New Account");
         System.out.println("3. Check Balance");
         System.out.println("4. Withdraw");
         System.out.println("5. Deposit");
+        int choice = myObj.nextInt();
+        switch (choice){
+            case 0:OrderZero(); break;
+            case 1:OrderOne(); break;
+            case 2:OrderTwo(); break;
+            case 3:OrderThree(); break;
+            case 4:OrderFour(); break;
+            case 5:OrderFive(); break;
+        }
     }
     public static void main(String[] args) {
 
 
-
-
             printMenu();
+
+
+
+
+
+
 
 
 

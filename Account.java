@@ -1,4 +1,6 @@
 public class Account {
+    private String tier;
+    private int pin;
     private double balance;
     public Account(double balance){
         this.balance = balance;
