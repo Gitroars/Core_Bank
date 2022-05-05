@@ -13,22 +13,23 @@ public class ATM {
         int cvv = myObj.nextInt();
         return myBank.searchCustomer(sn,cvv);
     }
-    public static String RandomSNCVV(int digits){
+    public static String RandomNumbers(int digits){
 
         String result = "";
-        if (digits == 3){
+
+        // CVV Number
+        if (digits < 5){
             for(int i=0; i< digits;i++){
                 int rng = random.nextInt(9);
                 result += Integer.toString(rng);
-
             }
         }
-        else if(digits==16){
+
+        // Account Number & Card Number
+        else if(digits>=10){
             for(int i=0; i< digits;i++){
                 long rng = random.nextInt(9);
                 result += Long.toString(rng);
-
-
             }
         }
 
@@ -48,25 +49,32 @@ public class ATM {
         String f= myObj.next();
         System.out.print("Enter last name: ");
         String l= myObj.next();
-        Customer myCustomer = new Customer(idNum,f,l);
+
+        long an = Long.parseLong(RandomNumbers(10));
+        Customer myCustomer = new Customer(idNum,f,l,an);
         myBank.addCustomer(myCustomer);
 
-        System.out.println("Dear "+myBank.getCustomers(0).getFullName()+",Please choose the debit card tier ");
-        System.out.println("1. Blue | Withdraw Limit : 10M | Deposit Limit : 25M");
-        System.out.println("2. Gold | Withdraw Limit : 10M | Deposit Limit : 40M");
-        System.out.println("3. Platinum | Withdraw Limit : 10M | Deposit Limit : 50M");
-        int tier = myObj.nextInt();
-        switch (tier){
+        System.out.println("Dear "+f+" "+l+",please choose the debit card tier ");
+        System.out.println("1. Blue | Withdraw Limit : 10M | Deposit Limit : 50M | Transfer Limit : 50M");
+        System.out.println("2. Gold | Withdraw Limit : 10M | Deposit Limit : 80M | Transfer Limit : 75M");
+        System.out.println("3. Platinum | Withdraw Limit : 10M | Deposit Limit : 100M | Transfer Limit : 100M");
+        int tierNum = myObj.nextInt();
+        char tierChr='x';
+        switch (tierNum){
             case 1:
                 System.out.println("Blue Tier selected");
+                tierChr='b';
                 break;
             case 2:
                 System.out.println("Gold Tier selected");
+                tierChr='g';
                 break;
             case 3:
                 System.out.println("Platinum Tier selected");
+                tierChr='p';
                 break;
             default:
+                System.out.println("Invalid input");
                 break;
         }
 
@@ -74,19 +82,23 @@ public class ATM {
         System.out.print("Enter starting balance: ");
         double newBalance = myObj.nextDouble();
 
-        long sn = Long.parseLong(RandomSNCVV(16));
-        int cvv = Integer.parseInt(RandomSNCVV(3));
-        Account newAccount = new Account(sn,cvv,newBalance);
+
+        long sn = Long.parseLong(RandomNumbers(16));
+        int cvv = Integer.parseInt(RandomNumbers(3));
+        Account newAccount = new Account(tierChr,sn,cvv,newBalance);
         myBank.getCustomers(0).setAccount(newAccount);
 
         System.out.println("You've successfully opened your bank account and created your debit card!");
-        System.out.println(" Debit Card Details ");
+        System.out.println("---Debit Card Details---");
         System.out.println("Serial Number: "+ sn);
         System.out.println("CVV: "+ cvv);
         System.out.println("Balance: "+ newBalance);
 
         printMenu();
 
+    }
+    public static void OrderTwo(){
+        int i = RunSearch();
     }
 
 
@@ -112,14 +124,19 @@ public class ATM {
     }
     public static void OrderSix(){
         int i = RunSearch();
+        System.out.print("Enter account number:");
+        long accountNumber = myObj.nextLong();
+        System.out.print("Enter the nominal for transfer:");
+        int nominal = myObj.nextInt();
+
 
     }
 
     public static void printMenu(){
         System.out.println("||| TRANSACTION MENU |||");
         System.out.println("0. Exit");
-        System.out.println("1. Register & Open Account");
-//        System.out.println("2. Create New Account");
+        System.out.println("1. Register & Create Account");
+        System.out.println("2. Delete Account");
         System.out.println("3. Check Balance");
         System.out.println("4. Withdraw");
         System.out.println("5. Deposit");
@@ -132,6 +149,8 @@ public class ATM {
             case 3:OrderThree(); break;
             case 4:OrderFour(); break;
             case 5:OrderFive(); break;
+            case 6:OrderSix();break;
+
         }
     }
     public static void main(String[] args) {
