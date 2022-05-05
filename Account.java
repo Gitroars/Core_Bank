@@ -1,20 +1,33 @@
+
+
 public class Account {
-    private String tier;
-    private int pin;
-    private double balance;
-    public Account(double balance){
+
+    private long sn;
+    private int cvv;
+    private double balance = 0;
+    public Account(long sn,int cvv, double balance){
+        this.sn = sn;
+        this.cvv = cvv;
         this.balance = balance;
+    }
+
+    public long getSn() {
+        return sn;
+    }
+
+    public int getCvv() {
+        return cvv;
     }
 
     public double getBalance() {
         return balance;
     }
-    public boolean deposit(double amt){
+    public void deposit(double amt){
         balance += amt;
-        return true;
+
     }
-    public boolean withdraw(double amt){
+    public void withdraw(double amt){
         balance -=amt;
-        return true;
+
     }
 }

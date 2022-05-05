@@ -9,7 +9,8 @@ public class Bank {
     }
 
     public void addCustomer(Customer c){
-        customers.addLast(c);
+        customers.add(c);
+        numberOfCustomers++;
     }
 
     public int getNumberOfCustomers() {
@@ -19,20 +20,22 @@ public class Bank {
     public Customer getCustomers(int index) {
         return customers.get(index);
     }
-    public int searchCustomer(int idNum, String customerName){
+    public int searchCustomer(long idNumber, int cvvNumber){
         int index = -1;
         for(int i=0;i<customers.size();i++){
             Customer llElement = customers.get(i);
 
-            String llName = llElement.getFullName();
-            if(llName==customerName ){
+            long llcardNumber = llElement.getAccount().getSn();
+            int llcardCVV = llElement.getAccount().getCvv();
+
+            if(llcardNumber==idNumber && llcardCVV==cvvNumber){
                 index = i;
                 break;
             }
         }
 
         if(index == -1){
-            System.out.println("Invalid name target");
+
             return 0;
         }
 
