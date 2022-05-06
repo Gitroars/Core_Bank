@@ -12,6 +12,9 @@ public class Bank {
         customers.add(c);
         numberOfCustomers++;
     }
+    public void deleteCustomer(int index){
+        customers.remove(index);
+    }
 
     public int getNumberOfCustomers() {
         return numberOfCustomers;
@@ -20,24 +23,23 @@ public class Bank {
     public Customer getCustomers(int index) {
         return customers.get(index);
     }
-    public int searchCustomer(long idNumber, int cvvNumber){
+    public int searchCustomer(long snNumber, int cvvNumber, String pinNumber){
         int index = -1;
         for(int i=0;i<customers.size();i++){
             Customer llElement = customers.get(i);
-
             long llcardNumber = llElement.getAccount().getSn();
             int llcardCVV = llElement.getAccount().getCvv();
+            String llcardPIN = llElement.getAccount().getPin();
 
-            if(llcardNumber==idNumber && llcardCVV==cvvNumber){
+            if(llcardNumber==snNumber && llcardCVV==cvvNumber){
+                System.out.println("target found");
                 index = i;
-                break;
+                return index;
+
             }
         }
 
-        if(index == -1){
 
-            return 0;
-        }
 
         return index;
 

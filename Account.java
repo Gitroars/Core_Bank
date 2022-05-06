@@ -4,11 +4,13 @@ public class Account {
     private char tier;
     private long sn;
     private int cvv;
+    private String pin;
     private double balance = 0;
-    public Account(char tier,long sn,int cvv, double balance){
+    public Account(char tier,long sn,int cvv,String pin, double balance){
         this.tier = tier;
         this.sn = sn;
         this.cvv = cvv;
+        this.pin = pin;
         this.balance = balance;
     }
 
@@ -19,6 +21,7 @@ public class Account {
     public int getCvv() {
         return cvv;
     }
+    public String getPin(){return pin;}
 
     public double getBalance() {
         return balance;
@@ -30,15 +33,18 @@ public class Account {
     public void deposit(double amt){
         switch (tier){
             case 'b':
-                if(amt<=50000000){
+                if(amt>500000 && amt<=50000000){
                     addBalance(amt);
+                }
+                else if(amt<=50000){
+                    System.out.println("Deposit amount must be more than Rp50.000 ");
                 }
                 else{
                     System.out.println("Deposit amount exceeds the limit");
                 }
                 break;
             case 'g':
-                if(amt<=80000000){
+                if(amt>0 && amt<=80000000){
                     addBalance(amt);
                 }
                 else{
@@ -46,7 +52,7 @@ public class Account {
                 }
                 break;
             case 'p':
-                if(amt<=100000000){
+                if(amt>0 && amt<=100000000){
                     addBalance(amt);
                 }
                 else{

@@ -1,9 +1,9 @@
 public class Customer {
-    private int idNumber;
+    private String idNumber;
     private long accountNumber;
     private String firstName,lastName;
     Account account;
-    public Customer(int i,String f,String l,long an){
+    public Customer(String i, String f, String l, long an){
         idNumber = i;
         firstName = f;
         lastName = l;
@@ -11,7 +11,7 @@ public class Customer {
 
     };
 
-    public int getIdNumber() {return idNumber;}
+    public String getIdNumber() {return idNumber;}
 
     public long getAccountNumber() {
         return accountNumber;
