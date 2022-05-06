@@ -23,26 +23,31 @@ public class Bank {
     public Customer getCustomers(int index) {
         return customers.get(index);
     }
-    public int searchCustomer(long snNumber, int cvvNumber, String pinNumber){
+    public int searchCustomer(long snNumber, int cvvNumber, int pinNumber){
         int index = -1;
         for(int i=0;i<customers.size();i++){
             Customer llElement = customers.get(i);
             long llcardNumber = llElement.getAccount().getSn();
             int llcardCVV = llElement.getAccount().getCvv();
-            String llcardPIN = llElement.getAccount().getPin();
+            int llcardPIN = llElement.getAccount().getPin();
 
-            if(llcardNumber==snNumber && llcardCVV==cvvNumber){
-                System.out.println("target found");
+            if(llcardNumber==snNumber && llcardCVV==cvvNumber && llcardPIN==pinNumber){
                 index = i;
                 return index;
-
             }
         }
-
-
-
         return index;
-
-
+    }
+    public int searchTarget(long accountNumber){
+        int index = -1;
+        for(int i=0;i<customers.size();i++){
+            Customer llElement = customers.get(i);
+            long llAccountNumber = llElement.getAccountNumber();
+            if(llAccountNumber==accountNumber){
+                index = i;
+                return index;
+            }
+        }
+        return index;
     }
 }

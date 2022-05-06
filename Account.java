@@ -4,9 +4,9 @@ public class Account {
     private char tier;
     private long sn;
     private int cvv;
-    private String pin;
+    private int pin;
     private double balance = 0;
-    public Account(char tier,long sn,int cvv,String pin, double balance){
+    public Account(char tier,long sn,int cvv,int pin, double balance){
         this.tier = tier;
         this.sn = sn;
         this.cvv = cvv;
@@ -21,7 +21,7 @@ public class Account {
     public int getCvv() {
         return cvv;
     }
-    public String getPin(){return pin;}
+    public int getPin(){return pin;}
 
     public double getBalance() {
         return balance;
@@ -29,34 +29,32 @@ public class Account {
     private void addBalance(double amt){
         balance += amt;
     }
+    private void subtractBalance(double amt){balance -=amt;}
 
     public void deposit(double amt){
         switch (tier){
             case 'b':
-                if(amt>500000 && amt<=50000000){
+                if(amt>0 &&amt<=50000000 && (amt%50000==0)){
                     addBalance(amt);
                 }
-                else if(amt<=50000){
-                    System.out.println("Deposit amount must be more than Rp50.000 ");
-                }
                 else{
-                    System.out.println("Deposit amount exceeds the limit");
+                    System.out.println("Error: Invalid deposit amount");
                 }
                 break;
             case 'g':
-                if(amt>0 && amt<=80000000){
+                if(amt>0 && amt<=80000000 && (amt%50000==0)){
                     addBalance(amt);
                 }
                 else{
-                    System.out.println("Deposit amount exceeds the limit");
+                    System.out.println("Error: Invalid deposit amount");
                 }
                 break;
             case 'p':
-                if(amt>0 && amt<=100000000){
+                if(amt>0 && amt<=100000000 && (amt%50000==0)){
                     addBalance(amt);
                 }
                 else{
-                    System.out.println("Deposit amount exceeds the limit");
+                    System.out.println("Error: Invalid deposit amount");
                 }
                 break;
             default:
@@ -67,19 +65,23 @@ public class Account {
     }
     public void withdraw(double amt) {
         if (balance > 0 ) {
-            if(amt<10000000){
-                balance -= amt;
+            if(amt>0 && amt<10000000 && (amt%50000==0)){
+                subtractBalance(amt);
             }
             else{
-                System.out.println("Withdraw amount exceeds the limit");
+                System.out.println("Error: Invalid withdraw amount");
             }
         }
         else if(balance < amt){
-            System.out.println("Insufficient balance");
+            System.out.println("Error: Insufficient balance");
         }
         else{
-            System.out.println("Balance is empty");
+            System.out.println("Error: Balance is empty");
         }
     }
+
+
+
+
 
 }

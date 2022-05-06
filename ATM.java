@@ -39,18 +39,21 @@ public class ATM {
         System.out.print("Enter CVV: ");
         int cvv = myObj.nextInt();
         System.out.print("Enter 6-digit PIN: ");
-        String pin = myObj.next();
-        int index = myBank.searchCustomer(sn,cvv,pin);
+        String pinStr = myObj.next();
+        int pinInt = Integer.parseInt(pinStr);
+        int index = myBank.searchCustomer(sn,cvv,pinInt);
         return index;
     }
     public static String RandomNumbers(int digits){
 
         String result = "";
+        int rng = 0;
 
         // CVV Number
         if (digits < 5){
             for(int i=0; i< digits;i++){
-                int rng = random.nextInt(9);
+                if(i==0){rng = random.nextInt(8)+1;}
+                else{rng = random.nextInt(9);}
                 result += Integer.toString(rng);
             }
         }
@@ -58,13 +61,13 @@ public class ATM {
         // Account Number & Card Number
         else if(digits>=10){
             for(int i=0; i< digits;i++){
-                long rng = random.nextInt(9);
+                if(i==0){rng = random.nextInt(8)+1;}
+                else{rng=random.nextInt(9);}
                 result += Long.toString(rng);
             }
         }
 
         return result;
-
     }
 
 
@@ -118,27 +121,30 @@ public class ATM {
 
         boolean pinCreated = false;
         String pinStr = "";
+        int pinInt = 0;
 
         while(!pinCreated){
             System.out.print("Enter 6-digit PIN: ");
             pinStr = myObj.next();
+
             int length=0;
             for(int i=0; i<pinStr.length();i++){
                 length++;
             }
             if(length==6){
                 pinCreated=true;
+                pinInt = Integer.parseInt(pinStr);
             }
             else{
                 System.out.println("Error: PIN must be in 6 digits format");
             }
         }
 
-        Account newAccount = new Account(tierChr,sn,cvv,pinStr,newBalance);
+        Account newAccount = new Account(tierChr,sn,cvv,pinInt,newBalance);
         myBank.getCustomers(0).setAccount(newAccount);
 
         System.out.println("You've successfully opened your bank account and created your debit card!");
-        System.out.println("[Debit Card]");
+        System.out.println("Account Number: "+an);
         System.out.println("Serial Number: "+ sn);
         System.out.println("CVV: "+ cvv);
         System.out.println("Balance: "+ newBalance);
@@ -192,8 +198,17 @@ public class ATM {
         if(index!=-1){
             System.out.print("Enter account number:");
             long accountNumber = myObj.nextLong();
-            System.out.print("Enter the nominal for transfer:");
-            int nominal = myObj.nextInt();
+            int targetIndex = myBank.searchTarget(accountNumber);
+            if(targetIndex!=-1){
+                System.out.print("Enter the nominal for transfer:");
+                int nominal = myObj.nextInt();
+                myBank.getCustomers(index).getAccount().withdraw(nominal);
+                myBank.getCustomers(targetIndex).getAccount().deposit(nominal);
+            }
+            else{
+                System.out.println("Error: Invalid account number");
+            }
+
         }
         else{
             System.out.println("Error: Customer not found");
