@@ -84,14 +84,14 @@ public class Account {
     public void transferSender(double amt){
         if(balance>0 && balance>=amt && amt>=10000){ //If the balance is sufficient for a transfer to be done,
             switch(tier){
-                case 'b':
-                    if(amt<=50000000){subtractBalance(amt);}
+                case 'b': //For blue tier card,
+                    if(amt<=50000000){subtractBalance(amt);} //Ensure the transfer amount must be less or equal to 50 million for a successful transfer
                     else{ System.out.println("Transfer amount exceeds transfer limit");}
-                case 'g':
-                    if(amt<=75000000){subtractBalance(amt);}
+                case 'g': //For gold tier card,
+                    if(amt<=75000000){subtractBalance(amt);} //Ensure the transfer amount must be less or equal to 75 million for a successful transfer
                     else{System.out.println("Transfer amount exceeds transfer limit");}
-                case 'p':
-                    if(amt<=100000000){subtractBalance(amt);}
+                case 'p': //For platinum tier card,
+                    if(amt<=100000000){subtractBalance(amt);} //Ensure the transfer amount must be less or equal to 100 million for a successful transfer
                     else{System.out.println("Transfer amount exceeds transfer limit");
             }
 
