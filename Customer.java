@@ -20,12 +20,14 @@ public class Customer {
     public String getFullName(){
             return getFirstName() + " " + getLastName();
         }
-        public String getFirstName() {
-            return firstName;
-        }
 
-        public String getLastName() {
-            return lastName;
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+    public String getLastName() {
+        return lastName;
     }
 
     public Account getAccount() {

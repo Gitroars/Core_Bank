@@ -3,12 +3,14 @@
 public class Account {
     private char tier;
     private long sn;
+    private String ed;
     private int cvv;
     private int pin;
     private double balance = 0;
-    public Account(char tier,long sn,int cvv,int pin, double balance){
+    public Account(char tier,long sn,String ed,int cvv,int pin, double balance){
         this.tier = tier;
         this.sn = sn;
+        this.ed = ed;
         this.cvv = cvv;
         this.pin = pin;
         this.balance = balance;
@@ -17,7 +19,7 @@ public class Account {
     public long getSn() {
         return sn;
     }
-
+    public String getEd() {return ed;}
     public int getCvv() {
         return cvv;
     }
@@ -64,7 +66,7 @@ public class Account {
 
     }
     public void withdraw(double amt) {
-        if (balance > 0 ) {
+        if (balance>=amt ) {
             if(amt>0 && amt<10000000 && (amt%50000==0)){
                 subtractBalance(amt);
             }
@@ -76,9 +78,21 @@ public class Account {
             System.out.println("Error: Insufficient balance");
         }
         else{
-            System.out.println("Error: Balance is empty");
+            System.out.println("Error: Invalid balance");
         }
     }
+    public void transferSender(double amt){
+        if(balance>0 && balance>=amt && amt>=10000){
+            subtractBalance(amt);
+        }
+        else{
+            System.out.println("Error: Invalid transfer");
+        }
+    }
+    public void transferRecipient(double amt){
+        addBalance(amt);
+    }
+
 
 
 

@@ -1,15 +1,20 @@
 import java.util.Scanner;
 import java.util.Random;
+import java.time.LocalDate;
+import java.time.Month;
 public class ATM {
+    // Initialize library data
     static Random random = new Random();
     static Scanner myObj = new Scanner(System.in);
+    // Initialize class data
     static Bank myBank = new Bank("BCA");
+    // Initialize index value to locate an element in the list
     static int index = -1;
-
+    // Initialize boolean values to loop through and traverse between menus
     static boolean inServiceMenu = true;
     static boolean inTellerMenu = false;
     static boolean inATMMenu = false;
-
+    // Initialize functions to loop through and traverse between menus
     private static void disableService(){
         inServiceMenu = false;
     }
@@ -34,14 +39,18 @@ public class ATM {
     }
 
     public static int RunSearch(){
+
+        // Users input information of debit card for parameter input on search function
         System.out.print("Enter card number: ");
         long sn = myObj.nextLong();
+        System.out.print("Enter expiration date(mm/yy): ");
+        String ed = myObj.next();
         System.out.print("Enter CVV: ");
         int cvv = myObj.nextInt();
         System.out.print("Enter 6-digit PIN: ");
         String pinStr = myObj.next();
         int pinInt = Integer.parseInt(pinStr);
-        int index = myBank.searchCustomer(sn,cvv,pinInt);
+        int index = myBank.searchCustomer(sn,ed,cvv,pinInt); //set the value of index to the return value of element's index that meets the criteria
         return index;
     }
     public static String RandomNumbers(int digits){
@@ -52,8 +61,7 @@ public class ATM {
         // CVV Number
         if (digits < 5){
             for(int i=0; i< digits;i++){
-                if(i==0){rng = random.nextInt(8)+1;}
-                else{rng = random.nextInt(9);}
+                rng=random.nextInt(9);
                 result += Integer.toString(rng);
             }
         }
@@ -61,13 +69,48 @@ public class ATM {
         // Account Number & Card Number
         else if(digits>=10){
             for(int i=0; i< digits;i++){
-                if(i==0){rng = random.nextInt(8)+1;}
-                else{rng=random.nextInt(9);}
+                if(i==0){rng = random.nextInt(8)+1;}  //The first digit will at least be 1
+                else{rng=random.nextInt(9);} //The second digit and so on will be from 0-9
                 result += Long.toString(rng);
             }
         }
 
         return result;
+    }
+    private static String GetExpirationMonth(String month){
+        if(month=="JANUARY"){month="01";}
+        else if(month=="FEBRUARY"){month="02";}
+        else if(month=="MARCH"){month="03";}
+        else if(month=="APRIL"){month="04";}
+        else if(month=="MAY"){month="05";}
+        else if(month=="JUNE"){month="06";}
+        else if(month=="JULY"){month="07";}
+        else if(month=="AUGUST"){month="08";}
+        else if(month=="SEPTEMBER"){month="09";}
+        else if(month=="OCTOBER"){month="10";}
+        else if(month=="NOVEMBER"){month="11";}
+        else if(month=="DECEMBER"){month="12";}
+        return month;
+
+    }
+    private static String GetExpirationYear(int year){
+        String newYear = Integer.toString(year);
+        newYear = newYear.substring(2);
+        return newYear;
+    }
+    private static String GetExpirationDate(){
+        String expirationDate= "";
+        LocalDate currentdate = LocalDate.now();
+        //Getting the current month
+        String currentMonth = String.valueOf(currentdate.getMonth());
+        //getting the current year
+        int currentYear = currentdate.getYear();
+        // Convert to new string format
+        String newMonth = GetExpirationMonth(currentMonth);
+        String newYear = GetExpirationYear(currentYear);
+        // Convert to string format and return the formatted value
+        expirationDate = newMonth+"/"+newYear;
+        return expirationDate;
     }
 
 
@@ -76,6 +119,7 @@ public class ATM {
         System.exit(0);
     }
     public static void CreateAccount(){
+        index = myBank.getNumberOfCustomers(); //The new index value on the list should be the current number of customers
         System.out.print("Enter ID number: ");
         String idNum = myObj.next();
         System.out.print("Enter first name: ");
@@ -86,6 +130,7 @@ public class ATM {
         long an = Long.parseLong(RandomNumbers(10));
         Customer myCustomer = new Customer(idNum,f,l,an);
         myBank.addCustomer(myCustomer);
+
 
         System.out.println("Dear "+f+" "+l+",please choose the debit card tier ");
         System.out.println("1. Blue | Withdraw Limit : 10M | Deposit Limit : 50M | Transfer Limit : 50M");
@@ -119,6 +164,7 @@ public class ATM {
         long sn = Long.parseLong(RandomNumbers(16));
         int cvv = Integer.parseInt(RandomNumbers(3));
 
+        // User will be required to create a 6-digit PIN. A PIN in valid format is required to break out of the loop.
         boolean pinCreated = false;
         String pinStr = "";
         int pinInt = 0;
@@ -139,17 +185,17 @@ public class ATM {
                 System.out.println("Error: PIN must be in 6 digits format");
             }
         }
+        String expirationDate = GetExpirationDate();
+        Account newAccount = new Account(tierChr,sn,expirationDate,cvv,pinInt,newBalance);
+        myBank.getCustomers(index).setAccount(newAccount);
 
-        Account newAccount = new Account(tierChr,sn,cvv,pinInt,newBalance);
-        myBank.getCustomers(0).setAccount(newAccount);
-
+        // Print information of the bank account and debit card
         System.out.println("You've successfully opened your bank account and created your debit card!");
         System.out.println("Account Number: "+an);
-        System.out.println("Serial Number: "+ sn);
+        System.out.println("Card Number: "+ sn);
+        System.out.println("Expiration Date: "+expirationDate);
         System.out.println("CVV: "+ cvv);
         System.out.println("Balance: "+ newBalance);
-
-
 
     }
     public static void DeleteAccount(){
@@ -199,11 +245,11 @@ public class ATM {
             System.out.print("Enter account number:");
             long accountNumber = myObj.nextLong();
             int targetIndex = myBank.searchTarget(accountNumber);
-            if(targetIndex!=-1){
-                System.out.print("Enter the nominal for transfer:");
-                int nominal = myObj.nextInt();
-                myBank.getCustomers(index).getAccount().withdraw(nominal);
-                myBank.getCustomers(targetIndex).getAccount().deposit(nominal);
+            if(targetIndex!=-1 && (index!=targetIndex)){ //Upon verifying the account number exist and is not of the user's,
+                System.out.print("Enter the nominal for transfer:"); //Ask the user to input the nominal amount
+                double nominal = myObj.nextDouble(); //Declare nominal's value to be of user input
+                myBank.getCustomers(index).getAccount().transferSender(nominal); //Subtract sender's balance by nominal
+                myBank.getCustomers(targetIndex).getAccount().transferRecipient(nominal); //Add recipient's balance by nominal
             }
             else{
                 System.out.println("Error: Invalid account number");
@@ -216,8 +262,8 @@ public class ATM {
     }
 
     public static void printMenu(){
-
-
+        // User will stay on said menu until they decide to go back or quit the menu. Users are given several options on each menu. The user inputs will then call a function.
+        //Main Menu
         while(inServiceMenu){
             System.out.println("---SERVICE MENU---");
             System.out.println("0. Quit");
@@ -227,45 +273,60 @@ public class ATM {
             switch (choice){
                 case 0: QuitApp();break;
                 case 1: enableTeller();break;
-                case 2: index=-1;enableATM();break;
+                case 2: if(myBank.getNumberOfCustomers()>0){index=-1;enableATM();break;}
                 default: System.out.println("Error: Invalid choice");break;
             }
         }
+        // Teller Menu
         while(inTellerMenu){
             System.out.println("---TELLER MENU---");
             System.out.println("0. Back");
             System.out.println("1. Create Account");
             System.out.println("2. Close Account");
+            System.out.println("3. Check Numbers Of Customers");
             int choice = myObj.nextInt();
             switch (choice){
                 case 0: disableTeller();break;
                 case 1: CreateAccount();break;
                 case 2: DeleteAccount();break;
+                case 3: myBank.printCustomers();break;
                 default: System.out.println("Error: Invalid choice");break;
             }
         }
+        // ATM Menu
         while(inATMMenu){
-            if(index==-1){index=RunSearch();}
-            System.out.println("---TRANSACTION MENU---");
-            System.out.println("0. Back");
-            System.out.println("1. Check Balance");
-            System.out.println("2. Withdraw");
-            System.out.println("3. Deposit");
-            System.out.println("4. Transfer");
-            int choice = myObj.nextInt();
-            switch (choice){
-                case 0: disableATM(); break;
-                case 1: CheckBalance(index); break;
-                case 2: WithdrawBalance(index);break;
-                case 3: DepositBalance(index);break;
-                case 4: TransferBalance(index);break;
-                default: System.out.println("Error: Invalid choice");break;
+            if(index==-1){
+                index=RunSearch();//If a debit card is not inserted yet, then ask for one
             }
+            if(index!=-1){ // Upon verification, display the menu options for the user to choose from
+                System.out.println("---TRANSACTION MENU---");
+                System.out.println("0. Back");
+                System.out.println("1. Check Balance");
+                System.out.println("2. Withdraw");
+                System.out.println("3. Deposit");
+                System.out.println("4. Transfer");
+                int choice = myObj.nextInt();
+                switch (choice){
+                    case 0: disableATM(); break;
+                    case 1: CheckBalance(index); break;
+                    case 2: WithdrawBalance(index);break;
+                    case 3: DepositBalance(index);break;
+                    case 4: TransferBalance(index);break;
+                    default: System.out.println("Error: Invalid choice");break;
+                }
+            }
+            else if(index==-1){ //If no match identity is found,
+                System.out.println("Error: Card Verification Failed"); //Informs user of invalid input
+                disableATM();  // Return to Service Menu Display
+            }
+
+
         }
 
 
     }
     public static void main(String[] args) {
+        // Keep the program alive
         while(true){
             printMenu();
         }
