@@ -38,7 +38,7 @@ public class ATM {
 
     }
 
-    public static int RunSearch(){
+    private static int RunSearch(){
 
         // Users input information of debit card for parameter input on search function
         System.out.print("Enter card number: ");
@@ -53,7 +53,7 @@ public class ATM {
         int index = myBank.searchCustomer(sn,ed,cvv,pinInt); //set the value of index to the return value of element's index that meets the criteria
         return index;
     }
-    public static String RandomNumbers(int digits){
+    private static String RandomNumbers(int digits){
 
         String result = "";
         int rng = 0;
@@ -115,10 +115,10 @@ public class ATM {
 
 
 
-    public static void QuitApp(){
+    private static void QuitApp(){
         System.exit(0);
     }
-    public static void CreateAccount(){
+    private static void CreateAccount(){
         index = myBank.getNumberOfCustomers(); //The new index value on the list should be the current number of customers
         System.out.print("Enter ID number: ");
         String idNum = myObj.next();
@@ -198,14 +198,14 @@ public class ATM {
         System.out.println("Balance: "+ newBalance);
 
     }
-    public static void DeleteAccount(){
+    private static void DeleteAccount(){
         int i = RunSearch();
         myBank.deleteCustomer(i);
 
     }
 
 
-    public static void CheckBalance(int index){
+    private static void CheckBalance(int index){
 
         if(index!=-1){
             double currentBalance = myBank.getCustomers(index).getAccount().getBalance();
@@ -217,7 +217,7 @@ public class ATM {
 
 
     }
-    public static void WithdrawBalance(int index){
+    private static void WithdrawBalance(int index){
 
         if(index!=-1){
             System.out.print("Enter withdraw amount: ");
@@ -228,7 +228,7 @@ public class ATM {
             System.out.println("Error: Customer not found");
         }
     }
-    public static void DepositBalance(int index){
+    private static void DepositBalance(int index){
 
         if(index!=-1){
             System.out.print("Enter deposit amount: ");
@@ -239,7 +239,7 @@ public class ATM {
             System.out.println("Error: Customer not found");
         }
     }
-    public static void TransferBalance(int index){
+    private static void TransferBalance(int index){
 
         if(index!=-1){
             System.out.print("Enter account number:");
@@ -261,7 +261,7 @@ public class ATM {
         }
     }
 
-    public static void printMenu(){
+    private static void printMenu(){
         // User will stay on said menu until they decide to go back or quit the menu. Users are given several options on each menu. The user inputs will then call a function.
         //Main Menu
         while(inServiceMenu){
