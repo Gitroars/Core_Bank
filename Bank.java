@@ -39,8 +39,8 @@ public class Bank {
             }
         }
         return index;
-
     }
+
     public int searchTarget(long accountNumber){
         int index = -1; //declare the index to be negative one at start
         for(int i=0;i<customers.size();i++){ //Traverse through the linked list,
@@ -54,4 +54,6 @@ public class Bank {
         }
         return index;
     }
+
+
 }

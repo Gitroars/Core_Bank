@@ -127,8 +127,13 @@ public class ATM {
         String f= myObj.next();
         System.out.print("Enter last name: ");
         String l= myObj.next();
+        int anExist = -1;
+        long an = 0;
+        while(anExist==-1){
+            an = Long.parseLong(RandomNumbers(10));
+            anExist = myBank.searchTarget(an);
+        }
 
-        long an = Long.parseLong(RandomNumbers(10));
         Customer myCustomer = new Customer(idNum,f,l,an);
         myBank.addCustomer(myCustomer);
 
