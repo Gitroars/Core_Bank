@@ -55,29 +55,30 @@ public class ATM {
     }
     private static String RandomNumbers(int digits){
 
-        String result = "";
-        int rng = 0;
+        String result = ""; //Declare end-result to be empty
+        int rng = 0; //Declare random number container to be zero
 
         // CVV Number
         if (digits < 5){
-            for(int i=0; i< digits;i++){
-                rng=random.nextInt(9);
-                result += Integer.toString(rng);
+            for(int i=0; i< digits;i++){ //For each digit,
+                rng=random.nextInt(9); //Set the value of random number to be from 0-9
+                result += Integer.toString(rng); //Add the random number to the string
             }
         }
 
         // Account Number & Card Number
         else if(digits>=10){
-            for(int i=0; i< digits;i++){
+            for(int i=0; i< digits;i++){ //For each digit,
                 if(i==0){rng = random.nextInt(8)+1;}  //The first digit will at least be 1
                 else{rng=random.nextInt(9);} //The second digit and so on will be from 0-9
-                result += Long.toString(rng);
+                result += Integer.toString(rng); //Add the random number to the string
             }
         }
 
         return result;
     }
     private static String GetExpirationMonth(String month){
+        // Change the string's value from word to number form
         if(month=="JANUARY"){month="01";}
         else if(month=="FEBRUARY"){month="02";}
         else if(month=="MARCH"){month="03";}
@@ -94,8 +95,8 @@ public class ATM {
 
     }
     private static String GetExpirationYear(int year){
-        String newYear = Integer.toString(year);
-        newYear = newYear.substring(2);
+        String newYear = Integer.toString(year); //Change from int to string format
+        newYear = newYear.substring(2); //Remove first two digits
         return newYear;
     }
     private static String GetExpirationDate(){
@@ -116,7 +117,7 @@ public class ATM {
 
 
     private static void QuitApp(){
-        System.exit(0);
+        System.exit(0); //Terminate the program
     }
     private static void CreateAccount(){
         index = myBank.getNumberOfCustomers(); //The new index value on the list should be the current number of customers
@@ -283,13 +284,11 @@ public class ATM {
             System.out.println("0. Back");
             System.out.println("1. Create Account");
             System.out.println("2. Close Account");
-            System.out.println("3. Check Numbers Of Customers");
             int choice = myObj.nextInt();
             switch (choice){
                 case 0: disableTeller();break;
                 case 1: CreateAccount();break;
                 case 2: DeleteAccount();break;
-                case 3: myBank.printCustomers();break;
                 default: System.out.println("Error: Invalid choice");break;
             }
         }

@@ -23,21 +23,18 @@ public class Bank {
     public Customer getCustomers(int index) {
         return customers.get(index);
     }
-    public void printCustomers(){
-        customers.forEach((element)->System.out.print(element + " "));
 
-    }
     public int searchCustomer(long snNumber, String expirationDate,int cvvNumber, int pinNumber){
-        int index = -1;
-        for(int i=0;i<customers.size();i++){
+        int index = -1;  //declare the index to be negative one at start
+        for(int i=0;i<customers.size();i++){ //Traverse through the linked list,
             Customer llElement = customers.get(i);
             long llcardNumber = llElement.getAccount().getSn();
             String llcardED = llElement.getAccount().getEd();
             int llcardCVV = llElement.getAccount().getCvv();
             int llcardPIN = llElement.getAccount().getPin();
-
+            // Check whether the current element's data values matches with the one from parameter
             if(llcardNumber==snNumber && llcardED==expirationDate && llcardCVV==cvvNumber && llcardPIN==pinNumber){
-                index = i;
+                index = i; //change the index's value to current index
                 return index;
             }
         }
@@ -45,12 +42,13 @@ public class Bank {
 
     }
     public int searchTarget(long accountNumber){
-        int index = -1;
-        for(int i=0;i<customers.size();i++){
+        int index = -1; //declare the index to be negative one at start
+        for(int i=0;i<customers.size();i++){ //Traverse through the linked list,
             Customer llElement = customers.get(i);
             long llAccountNumber = llElement.getAccountNumber();
+            // Check whether current element's account number is the same with parameter input's
             if(llAccountNumber==accountNumber){
-                index = i;
+                index = i; //change the index's value to current index
                 return index;
             }
         }

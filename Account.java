@@ -36,24 +36,24 @@ public class Account {
     public void deposit(double amt){
         switch (tier){
             case 'b':
-                if(amt>0 &&amt<=50000000 && (amt%50000==0)){
-                    addBalance(amt);
+                if(amt>0 &&amt<=50000000 && (amt%50000==0)){ //The deposit amount must be a positive multiplication of 50 thousand and at most 500 thousand
+                    addBalance(amt); // add balance by amount
                 }
                 else{
                     System.out.println("Error: Invalid deposit amount");
                 }
                 break;
             case 'g':
-                if(amt>0 && amt<=80000000 && (amt%50000==0)){
-                    addBalance(amt);
+                if(amt>0 && amt<=80000000 && (amt%50000==0)){ //The deposit amount must be a positive multiplication of 50 thousand and at most 800 thousand
+                    addBalance(amt); // add balance by amount
                 }
                 else{
                     System.out.println("Error: Invalid deposit amount");
                 }
                 break;
             case 'p':
-                if(amt>0 && amt<=100000000 && (amt%50000==0)){
-                    addBalance(amt);
+                if(amt>0 && amt<=100000000 && (amt%50000==0)){ //The deposit amount must be a positive multiplication of 50 thousand and at most 1 million
+                    addBalance(amt); // add balance by amount
                 }
                 else{
                     System.out.println("Error: Invalid deposit amount");
@@ -66,9 +66,9 @@ public class Account {
 
     }
     public void withdraw(double amt) {
-        if (balance>=amt ) {
-            if(amt>0 && amt<10000000 && (amt%50000==0)){
-                subtractBalance(amt);
+        if (balance>=amt ) { //There must be sufficient balance for said withdrawal amount
+            if(amt>0 && amt<10000000 && (amt%50000==0)){ //The withdrawal amount must be a multiplication of positive 50 thousand
+                subtractBalance(amt); //reduce the balance by amount
             }
             else{
                 System.out.println("Error: Invalid withdraw amount");
@@ -82,8 +82,8 @@ public class Account {
         }
     }
     public void transferSender(double amt){
-        if(balance>0 && balance>=amt && amt>=10000){
-            subtractBalance(amt);
+        if(balance>0 && balance>=amt && amt>=10000){ //If the balance is sufficient for a transfer to be done,
+            subtractBalance(amt); //reduce the balance by amount
         }
         else{
             System.out.println("Error: Invalid transfer");
