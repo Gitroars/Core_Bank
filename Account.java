@@ -83,7 +83,19 @@ public class Account {
     }
     public void transferSender(double amt){
         if(balance>0 && balance>=amt && amt>=10000){ //If the balance is sufficient for a transfer to be done,
-            subtractBalance(amt); //reduce the balance by amount
+            switch(tier){
+                case 'b':
+                    if(amt<=50000000){subtractBalance(amt);}
+                    else{ System.out.println("Transfer amount exceeds transfer limit");}
+                case 'g':
+                    if(amt<=75000000){subtractBalance(amt);}
+                    else{System.out.println("Transfer amount exceeds transfer limit");}
+                case 'p':
+                    if(amt<=100000000){subtractBalance(amt);}
+                    else{System.out.println("Transfer amount exceeds transfer limit");
+            }
+
+        }
         }
         else{
             System.out.println("Error: Invalid transfer");
