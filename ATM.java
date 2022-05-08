@@ -124,9 +124,10 @@ public class ATM {
 
         // Ask user input for unique id
         boolean idAvailability = false;
+        String idNum = "";
         while(idAvailability){ // User must input an ID number that has not been used
             System.out.print("Enter ID number: ");
-            String idNum = myObj.next();
+             idNum = myObj.next();
             idAvailability = myBank.searchIDAvailability(idNum);
         }
         System.out.print("Enter first name: ");
