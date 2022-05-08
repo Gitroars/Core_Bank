@@ -138,7 +138,7 @@ public class ATM {
         //Create a unique account number
         int anExist = -1;
         long an = 0;
-        while(anExist==-1){
+        while(anExist!=-1){
             an = Long.parseLong(RandomNumbers(10));
             anExist = myBank.searchTarget(an);
         }
@@ -175,6 +175,9 @@ public class ATM {
         System.out.print("Enter starting balance: ");
         double newBalance = myObj.nextDouble();
 
+        //Create a temporary account
+        Account newAccount = new Account('n',0,"00/00",0,0,0);
+        myBank.getCustomers(index).setAccount(newAccount);
 
         //Generate a unique 16-digit card number
         boolean cardNumberAvailable = false;
@@ -183,8 +186,12 @@ public class ATM {
             sn = Long.parseLong(RandomNumbers(16));
             cardNumberAvailable = myBank.searchCNAvailability(sn);
         }
+        System.out.println("Card Number Generated");
         // Generate a 3-digit CVV
         int cvv = Integer.parseInt(RandomNumbers(3));
+        System.out.println("CVV Generated");
+
+
 
 
         // User will be required to create a 6-digit PIN. A PIN in valid format is required to break out of the loop.
@@ -211,8 +218,8 @@ public class ATM {
         // Generate expiration date for the card according to current date
         String expirationDate = GetExpirationDate();
         // Set the new bank account according to generated and inputted data
-        Account newAccount = new Account(tierChr,sn,expirationDate,cvv,pinInt,newBalance);
-        myBank.getCustomers(index).setAccount(newAccount);
+        Account tempAccount = new Account(tierChr,sn,expirationDate,cvv,pinInt,newBalance);
+        myBank.getCustomers(index).setAccount(tempAccount);
 
         // Print information of the bank account and debit card
         System.out.println("You've successfully opened your bank account and created your debit card!");
@@ -248,18 +255,24 @@ public class ATM {
     private static void TransferBalance(int index){
 
         if(index!=-1){
-            System.out.print("Enter account number:");
-            long accountNumber = myObj.nextLong();
-            int targetIndex = myBank.searchTarget(accountNumber);
-            if(targetIndex!=-1 && (index!=targetIndex)){ //Upon verifying the account number exist and is not of the user's,
-                System.out.print("Enter the nominal for transfer:"); //Ask the user to input the nominal amount
-                double nominal = myObj.nextDouble(); //Declare nominal's value to be of user input
-                myBank.getCustomers(index).getAccount().transferSender(nominal); //Subtract sender's balance by nominal
-                myBank.getCustomers(targetIndex).getAccount().transferRecipient(nominal); //Add recipient's balance by nominal
+            if(myBank.getNumberOfCustomers()>=2){
+                System.out.print("Enter account number:");
+                long accountNumber = myObj.nextLong();
+                int targetIndex = myBank.searchTarget(accountNumber);
+                if(targetIndex!=-1 && (index!=targetIndex)){ //Upon verifying the account number exist and is not of the user's,
+                    System.out.print("Enter the nominal for transfer:"); //Ask the user to input the nominal amount
+                    double nominal = myObj.nextDouble(); //Declare nominal's value to be of user input
+                    myBank.getCustomers(index).getAccount().transferSender(nominal); //Subtract sender's balance by nominal
+                    myBank.getCustomers(targetIndex).getAccount().transferRecipient(nominal); //Add recipient's balance by nominal
+                }
+                else{
+                    System.out.println("Error: Invalid account number");
+                }
             }
             else{
-                System.out.println("Error: Invalid account number");
+                System.out.println("Error: Insufficient number of customers for a transfer ");
             }
+
 
         }
         else{

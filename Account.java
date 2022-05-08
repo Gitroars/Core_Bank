@@ -4,7 +4,8 @@ public class Account {
     private String ed;
     private int cvv;
     private int pin;
-    private double balance = 0;
+    private double balance;
+
 
     public Account(char tier,long sn,String ed,int cvv,int pin, double balance){
         this.tier = tier;
