@@ -223,44 +223,24 @@ public class ATM {
     }
     private static void DeleteAccount(){
         int i = RunSearch();
-        myBank.deleteCustomer(i);
+        myBank.deleteCustomer(i); //Remove customer from LinkedList
 
     }
 
 
     private static void CheckBalance(int index){
-
-        if(index!=-1){
             double currentBalance = myBank.getCustomers(index).getAccount().getBalance();
-            System.out.println("Balance: "+currentBalance);
-        }
-        else{
-            System.out.println("Error: Customer not found");
-        }
-
-
+            System.out.println("Balance: "+currentBalance); //Display current balance
     }
     private static void WithdrawBalance(int index){
-
-        if(index!=-1){
             System.out.print("Enter withdraw amount: ");
             double amount = myObj.nextDouble();
-            myBank.getCustomers(index).getAccount().withdraw(amount);
-        }
-        else{
-            System.out.println("Error: Customer not found");
-        }
+            myBank.getCustomers(index).getAccount().withdraw(amount); //Subtract current balance by input amount
     }
     private static void DepositBalance(int index){
-
-        if(index!=-1){
             System.out.print("Enter deposit amount: ");
             double amount = myObj.nextDouble();
-            myBank.getCustomers(index).getAccount().deposit(amount);
-        }
-        else{
-            System.out.println("Error: Customer not found");
-        }
+            myBank.getCustomers(index).getAccount().deposit(amount); //Add current balance by input amount
     }
     private static void TransferBalance(int index){
 
