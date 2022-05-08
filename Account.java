@@ -1,5 +1,3 @@
-
-
 public class Account {
     private char tier;
     private long sn;
@@ -7,6 +5,7 @@ public class Account {
     private int cvv;
     private int pin;
     private double balance = 0;
+
     public Account(char tier,long sn,String ed,int cvv,int pin, double balance){
         this.tier = tier;
         this.sn = sn;
@@ -14,7 +13,7 @@ public class Account {
         this.cvv = cvv;
         this.pin = pin;
         this.balance = balance;
-    }
+    };
 
     public long getSn() {
         return sn;

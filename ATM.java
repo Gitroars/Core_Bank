@@ -125,7 +125,7 @@ public class ATM {
         // Ask user input for unique id
         boolean idAvailability = false;
         String idNum = "";
-        while(idAvailability){ // User must input an ID number that has not been used
+        while(!idAvailability){ // User must input an ID number that has not been used
             System.out.print("Enter ID number: ");
              idNum = myObj.next();
             idAvailability = myBank.searchIDAvailability(idNum);
@@ -179,7 +179,7 @@ public class ATM {
         //Generate a unique 16-digit card number
         boolean cardNumberAvailable = false;
         long sn = 0;
-        while(cardNumberAvailable){
+        while(!cardNumberAvailable){
             sn = Long.parseLong(RandomNumbers(16));
             cardNumberAvailable = myBank.searchCNAvailability(sn);
         }

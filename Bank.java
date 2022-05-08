@@ -1,4 +1,4 @@
-import java.util.Iterator;
+
 import java.util.LinkedList;
 
 public class Bank {
@@ -34,7 +34,7 @@ public class Bank {
             int llcardCVV = llElement.getAccount().getCvv();
             int llcardPIN = llElement.getAccount().getPin();
             // Check whether the current element's data values matches with the one from parameter
-            if(llcardNumber==snNumber && llcardED==expirationDate && llcardCVV==cvvNumber && llcardPIN==pinNumber){
+            if(llcardNumber==snNumber && llcardED.equals(expirationDate )&& llcardCVV==cvvNumber && llcardPIN==pinNumber){
                 index = i; //change the index's value to current index
                 return index;
             }
@@ -60,7 +60,7 @@ public class Bank {
         for(int i=0;i<customers.size();i++){
             Customer llElement = customers.get(i);
             String llIDNumber = llElement.getIdNumber();
-            if(llIDNumber==idNumber){return false;}
+            if(llIDNumber.equals(idNumber)){return false;}
         }
         return true;
     }
