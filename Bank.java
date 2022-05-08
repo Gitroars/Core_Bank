@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Bank {
@@ -55,5 +56,21 @@ public class Bank {
         return index;
     }
 
+    public boolean searchIDAvailability(String idNumber){
+        for(int i=0;i<customers.size();i++){
+            Customer llElement = customers.get(i);
+            String llIDNumber = llElement.getIdNumber();
+            if(llIDNumber==idNumber){return false;}
+        }
+        return true;
+    }
+    public boolean searchCNAvailability(long cardNumber){
+        for(int i=0;i<customers.size();i++){
+            Customer llElement = customers.get(i);
+            long llCardNumber = llElement.getAccount().getSn();
+            if(llCardNumber==cardNumber){return false;}
+        }
+        return true;
+    }
 
 }

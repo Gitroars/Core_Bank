@@ -121,8 +121,14 @@ public class ATM {
     }
     private static void CreateAccount(){
         index = myBank.getNumberOfCustomers(); //The new index value on the list should be the current number of customers
-        System.out.print("Enter ID number: ");
-        String idNum = myObj.next();
+
+        // Ask user input for unique id
+        boolean idAvailability = false;
+        while(idAvailability){ // User must input an ID number that has not been used
+            System.out.print("Enter ID number: ");
+            String idNum = myObj.next();
+            idAvailability = myBank.searchIDAvailability(idNum);
+        }
         System.out.print("Enter first name: ");
         String f= myObj.next();
         System.out.print("Enter last name: ");
@@ -167,8 +173,16 @@ public class ATM {
         double newBalance = myObj.nextDouble();
 
 
-        long sn = Long.parseLong(RandomNumbers(16));
+        //Generate a unique 16-digit card number
+        boolean cardNumberAvailable = false;
+        long sn = 0;
+        while(cardNumberAvailable){
+            sn = Long.parseLong(RandomNumbers(16));
+            cardNumberAvailable = myBank.searchCNAvailability(sn);
+        }
+        // Generate a 3-digit CVV
         int cvv = Integer.parseInt(RandomNumbers(3));
+
 
         // User will be required to create a 6-digit PIN. A PIN in valid format is required to break out of the loop.
         boolean pinCreated = false;
@@ -191,7 +205,9 @@ public class ATM {
                 System.out.println("Error: PIN must be in 6 digits format");
             }
         }
+        // Generate expiration date for the card according to current date
         String expirationDate = GetExpirationDate();
+        // Set the new bank account according to generated and inputted data
         Account newAccount = new Account(tierChr,sn,expirationDate,cvv,pinInt,newBalance);
         myBank.getCustomers(index).setAccount(newAccount);
 
