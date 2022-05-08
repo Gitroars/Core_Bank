@@ -223,6 +223,7 @@ public class ATM {
     }
     private static void DeleteAccount(){
         int i = RunSearch();
+        System.out.println("Dear Mr./Ms. "+ myBank.getCustomers(i).getFullName()+" , Your bank account has been deleted");
         myBank.deleteCustomer(i); //Remove customer from LinkedList
 
     }
