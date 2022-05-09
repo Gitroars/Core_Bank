@@ -136,14 +136,16 @@ public class ATM {
         String l= myObj.next();
 
         //Create a unique account number
-        int anExist = -1;
-        long an = 0;
-        while(anExist!=-1){
-            an = Long.parseLong(RandomNumbers(10));
-            anExist = myBank.searchTarget(an);
+        boolean accountNumberAvailability = false;
+        long accountNum = 0;
+        while(!accountNumberAvailability){
+            accountNum = Long.parseLong(RandomNumbers(10));
+            if(myBank.searchTarget(accountNum)==-1){
+                accountNumberAvailability = true;
+            }
         }
         // Create a customer profile and add it to the linked list
-        Customer myCustomer = new Customer(idNum,f,l,an);
+        Customer myCustomer = new Customer(idNum,f,l,accountNum);
         myBank.addCustomer(myCustomer);
 
 
@@ -223,7 +225,7 @@ public class ATM {
 
         // Print information of the bank account and debit card
         System.out.println("You've successfully opened your bank account and created your debit card!");
-        System.out.println("Account Number: "+an);
+        System.out.println("Account Number: "+accountNum);
         System.out.println("Card Number: "+ sn);
         System.out.println("Expiration Date: "+expirationDate);
         System.out.println("CVV: "+ cvv);
