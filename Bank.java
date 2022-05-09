@@ -11,7 +11,6 @@ public class Bank {
 
     public void addCustomer(Customer c){
         customers.add(c);
-        System.out.println(customers);
     }
     public void deleteCustomer(int index){
         customers.remove(index);

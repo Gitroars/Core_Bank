@@ -229,7 +229,7 @@ public class ATM {
         System.out.println("Card Number: "+ sn);
         System.out.println("Expiration Date: "+expirationDate);
         System.out.println("CVV: "+ cvv);
-        System.out.println("Balance: "+ newBalance);
+        System.out.println("Balance: "+ (String.format("%.03f",newBalance)));
 
     }
     private static void DeleteAccount(){
@@ -242,7 +242,7 @@ public class ATM {
 
     private static void CheckBalance(int index){
             double currentBalance = myBank.getCustomers(index).getAccount().getBalance();
-            System.out.println("Balance: "+currentBalance); //Display current balance
+            System.out.println("Balance: "+ (String.format("%.03f",currentBalance))); //Display current balance
     }
     private static void WithdrawBalance(int index){
             System.out.print("Enter withdraw amount: ");
