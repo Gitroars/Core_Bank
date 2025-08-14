@@ -1,5 +1,5 @@
 # Description </br>
-A simple local Banking GUI application made entirely using Java without any framework. </br>
+A simple local Banking console application made entirely using Java without any framework. </br>
 
 # Features </br>
 Customer – An individual registered in the bank system, holding one or more accounts.  </br>
